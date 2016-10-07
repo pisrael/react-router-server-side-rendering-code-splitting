@@ -16,7 +16,7 @@ module.exports = [
         externals: /^[a-z\-0-9]+$/,
         module: {
             loaders: [
-                { test: /\.js$/, exclude: /node_modules/, loader: 'babel' }
+                { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react'}
             ]
         }
     }

@@ -4,7 +4,7 @@ const ReactDOMServer = require('react-dom/server')
 const ReactRouter = require('react-router')
 const fs = require('fs')
 const Utils = require('./utils/server-utils')
-const routes = require('./serverside.bundle.js');
+const routes = require('./serverside.bundle.js').default;
 
 const PORT = process.env.PORT || 5000
 
