@@ -27,6 +27,12 @@ configuration file to transpile the whole server code if you wish.
 * The code splitting is strategically placed on dynamic routes to split the code based on the current URL - [see more here](https://github.com/ReactTraining/react-router/blob/master/docs/guides/DynamicRouting.md)
 * For the server side rendering work, it transpiles the RootRoute and renders the HTML on string that is sent back to the client
 
+## What to improve
+* The server code is unecessarily being code splitted. 
+One possible solution would be to create dynamic require function, that uses the
+Define.plugin to know if the code is being transpiled for the server or for the client.
+
+
 ## Running
 
 ```
