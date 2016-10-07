@@ -40,7 +40,7 @@ module.exports = {
     </head>
     <body>
       <div id="app">${html}</div>
-      <script src="/__build__/main.js"></script>
+      <script src="/public/main.js"></script>
     </body>
   </html>
   `

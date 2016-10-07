@@ -9,7 +9,7 @@ const routes = require('./serverside.bundle.js');
 const PORT = process.env.PORT || 5000
 
 function renderApp(props, res) {
-  const markup = ReactDOMServer.renderToString(React.createFactory(ReactRouter.RoutingContext)( Object.assign({},props) ))
+  const markup = ReactDOMServer.renderToString(React.createFactory(ReactRouter.RouterContext)( Object.assign({},props) ))
   const html = Utils.createPage(markup)
   Utils.write(html, 'text/html', res)
 }
@@ -21,7 +21,7 @@ http.createServer((req, res) => {
   }
 
   // serve JavaScript assets
-  else if (/__build__/.test(req.url)) {
+  else if (/public/.test(req.url)) {
     fs.readFile(`.${req.url}`, (err, data) => {
       Utils.write(data, 'text/javascript', res)
     })
