@@ -8,7 +8,7 @@ export default class App extends React.Component {
         <h1>App</h1>
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About (lazy loaded)</Link></li>
+          <li><Link to="/lazyload">Lazy Load</Link></li>
         </ul>
         {this.props.children}
       </div>

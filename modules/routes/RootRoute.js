@@ -6,7 +6,7 @@ export default {
   component: App,
   getChildRoutes(location, cb) {
     require.ensure([], (require) => {
-      cb(null, [require('./AboutRoute').default])
+      cb(null, [require('./LazyLoadRoute').default])
     })
   },
   indexRoute: {

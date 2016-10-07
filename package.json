@@ -5,9 +5,12 @@
   "main": "client.js",
   "scripts": {
     "start": "NODE_ENV=production npm run build && node modules/server.js",
-    "build:client": "webpack --progress",
-    "build:server": "webpack --progress --config webpack.server.config.js",
-    "build": "npm run build:client && npm run build:server"
+    "build:client": "webpack --progress --colors",
+    "build:server": "webpack --progress --colors --config webpack.server.config.js",
+    "build": "npm run build:client && npm run build:server",
+    "watch:client": "webpack --progress --colors --watch",
+    "watch:server": "webpack --progress --colors --watch --config webpack.server.config.js",
+    "watch": "npm run watch:client && npm run watch:server"
   },
   "author": "Pedro Israel",
   "license": "ISC",
