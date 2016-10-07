@@ -10,7 +10,7 @@ module.exports = [
         output: {
             path: __dirname + '/modules',
             filename: "serverside.bundle.js",
-            publicPath: '/public/',
+            publicPath: './',
             libraryTarget: "commonjs2"
         },
         externals: /^[a-z\-0-9]+$/,

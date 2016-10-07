@@ -1,46 +1,57 @@
-const http = require('http')
+const express = require('express')
+const path = require('path')
+const compression = require('compression')
+
 const React = require('react')
 const ReactDOMServer = require('react-dom/server')
 const ReactRouter = require('react-router')
-const fs = require('fs')
-const Utils = require('./utils/server-utils')
 const routes = require('./serverside.bundle.js').default;
 
-const PORT = process.env.PORT || 5000
 
-function renderApp(props, res) {
-  const markup = ReactDOMServer.renderToString(React.createFactory(ReactRouter.RouterContext)( Object.assign({},props) ))
-  const html = Utils.createPage(markup)
-  Utils.write(html, 'text/html', res)
+var app = express()
+app.use(compression())
+
+// serve our static stuff
+app.use(express.static(path.join(__dirname, '..', 'public')))
+
+
+// send all requests to index.html so browserHistory in React Router works
+app.get("*", function (req, res) {
+    // match the routes to the url
+    ReactRouter.match({ routes: routes, location: req.url }, (err, redirect, props) => {
+        if (err) {
+            res.status(500).send(err.message)
+        } else if (redirect) {
+            res.redirect(redirect.pathname + redirect.search)
+        } else if (props) {
+            const appHtml = ReactDOMServer.renderToString(React.createFactory(ReactRouter.RouterContext)( Object.assign({},props)))
+            res.send(renderPage(appHtml))
+        } else {
+            res.status(404).send('Not Found')
+        }
+    })
+})
+
+function renderPage(appHtml) {
+    return `
+    <!doctype html>
+    <html>
+      <head>
+        <meta charset="utf-8"/>
+        <title>My Fast App</title>
+      </head>
+      <body>
+        <div id="app">${appHtml}</div>
+        <script src="/bundle.js"></script>
+      </body>
+    </html>
+    `
 }
 
-http.createServer((req, res) => {
+var PORT = process.env.PORT || 5000
+const httpServer = require('http').createServer(app);
 
-  if (req.url === '/favicon.ico') {
-    Utils.write('haha', 'text/plain', res)
-  }
-
-  // serve JavaScript assets
-  else if (/public/.test(req.url)) {
-    fs.readFile(`.${req.url}`, (err, data) => {
-      Utils.write(data, 'text/javascript', res)
-    })
-  }
-
-  // handle all other urls with React Router
-  else {
-    ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
-      if (error)
-        Utils.writeError('ERROR!', res)
-      else if (redirectLocation)
-        Utils.redirect(redirectLocation, res)
-      else if (renderProps)
-        renderApp(renderProps, res)
-      else
-        Utils.writeNotFound(res)
-    })
-  }
-
-}).listen(PORT)
-console.log(`listening on port ${PORT}`)
+httpServer.listen(PORT, function () {
+    console.log('Production Express server running at localhost:' + PORT)
+})
 

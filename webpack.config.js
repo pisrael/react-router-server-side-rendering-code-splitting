@@ -4,15 +4,13 @@ var webpack = require('webpack')
 
 module.exports = {
 
-  //devtool: 'source-map',
-
   entry: './modules/client.js',
 
   output: {
     path: __dirname + '/public',
-    filename: '[name].js',
+    filename: 'bundle.js',
     chunkFilename: '[id].chunk.js',
-    publicPath: '/public/'
+    publicPath: '/'
   },
 
   module: {
