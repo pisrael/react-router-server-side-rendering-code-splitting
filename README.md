@@ -2,13 +2,12 @@ React Router + Server Side Rendering + Code Splitting
 =====================================================
 
 What I wanted to achieve here is:
-**Have a webapp that has SEO indexing and has a very short loading time on mobile devices on 3G connections**
+**Have a webapp that has SEO indexing and has a very short loading time on mobile devices with 3G connections**
 
 The goal of this example is to provide a boilerplate ready for
-production, simultaneously taking advantage of React Router, 
-Server Side Rendering and Code Splitting to achieve our objective.
+production, simultaneously taking advantage of ReactRouter, 
+server side rendering and code splitting to achieve this objective.
 
-This was achieved by combining server side rendering with code splitting.
 The solution was created combining:
 * https://github.com/webpack/react-webpack-server-side-example
 * https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes
@@ -17,10 +16,12 @@ The solution was created combining:
 For the server side, only the React modules are transpilled through Babel, 
 the server code is vanilla Node ES6 Javascript. This facilitates debugging
 through VSCode, as you can place breakpoints directly in your server code.
-The drawback is that it limits the usage of ES6 features implemented by Node.
+The drawback is that it limits the usage of ES6 features, limiting to what is 
+currently implemented by Node.
+
 I consider easy debugging a very important feature for software development,
-and I chose this solution for this reason. You could modify webpack's server 
-configuration file to transpile the whole server code if you wish.
+and I chose this solution for this reason. You can modify webpack's server 
+configuration to transpile the whole server code if you wish so.
 
 ## How it works
 * For code splitting, the system uses webpack require.ensure - [see more here](https://webpack.github.io/docs/code-splitting.html)
@@ -41,3 +42,18 @@ npm start
 open http://localhost:5000
 ```
 
+## Development
+To speed up builds while developing, webpack will watch the modification 
+of React files and automatically update the builds for client and server rendering.
+
+```
+npm run watch
+```
+
+
+## Building
+If you prefer to manually trigger a new build. *You can setup VSCode to build with cmd+shft+B.*
+
+```
+npm run build
+```
