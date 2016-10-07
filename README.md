@@ -2,7 +2,7 @@ React Router + Server Side Rendering + Code Splitting
 =====================================================
 
 What I wanted to achieve here is:
-*Have a webapp that has SEO indexing and has a very short loading time on mobile devices on 3G connections*
+**Have a webapp that has SEO indexing and has a very short loading time on mobile devices on 3G connections**
 
 The goal of this example is to provide a boilerplate ready for
 production, simultaneously taking advantage of React Router, 
@@ -23,8 +23,8 @@ and I chose this solution for this reason. You could modify webpack's server
 configuration file to transpile the whole server code if you wish.
 
 ## How it works
-* For code splitting, the system uses webpack require.ensure (see more here: https://webpack.github.io/docs/code-splitting.html)
-* The code splitting is strategically placed on dynamic routes to split the code based on the current URL (see more here: https://github.com/ReactTraining/react-router/blob/master/docs/guides/DynamicRouting.md)
+* For code splitting, the system uses webpack require.ensure - [see more here](https://webpack.github.io/docs/code-splitting.html)
+* The code splitting is strategically placed on dynamic routes to split the code based on the current URL - [see more here](https://github.com/ReactTraining/react-router/blob/master/docs/guides/DynamicRouting.md)
 * For the server side rendering work, it transpiles the RootRoute and renders the HTML on string that is sent back to the client
 
 ## Running
