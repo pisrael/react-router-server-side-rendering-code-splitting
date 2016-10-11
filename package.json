@@ -5,8 +5,8 @@
   "main": "client.js",
   "scripts": {
     "start": "NODE_ENV=production npm run build && node modules/server.js",
-    "build": "webpack --progress --colors",
-    "watch": "webpack --progress --colors --watch"
+    "build": "webpack --colors",
+    "watch": "webpack --colors --watch"
   },
   "author": "Pedro Israel",
   "license": "ISC",
