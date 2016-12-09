@@ -3,3 +3,4 @@ node_modules
 .DS_Store
 modules/*serverside.bundle.js
 .vscode
+/build/*

@@ -4,9 +4,11 @@
   "description": "",
   "main": "client.js",
   "scripts": {
-    "start": "NODE_ENV=production npm run build && node modules/server.js",
-    "build": "webpack --colors",
-    "watch": "webpack --colors --watch"
+    "start": "NODE_ENV=production DB_ENV=production npm run build && node src/server.js",
+    "build": "npm run clean && NODE_ENV=production webpack",
+    "watch": "npm run clean && webpack --watch",
+    "server": "npm run build && forever stopall && NODE_ENV=production DB_ENV=production SSL_ENV=production forever start src/server.js",
+    "clean": "rm -rf public/build && rm -rf build"
   },
   "author": "Pedro Israel",
   "license": "ISC",
@@ -18,10 +20,10 @@
     "react-router": "^2.8.1"
   },
   "devDependencies": {
-    "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.16.0",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
-    "webpack": "^1.13.2"
+    "webpack": "^2.1.0-beta.27"
   }
 }

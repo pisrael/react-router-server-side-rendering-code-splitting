@@ -5,7 +5,7 @@ const compression = require('compression')
 const React = require('react')
 const ReactDOMServer = require('react-dom/server')
 const ReactRouter = require('react-router')
-const routes = require('./serverside.bundle.js').default;
+const routes = require('../build/server.routes.bundle.js').default;
 
 
 var app = express()
@@ -42,7 +42,7 @@ function renderPage(appHtml) {
       </head>
       <body>
         <div id="app">${appHtml}</div>
-        <script src="/bundle.js"></script>
+        <script src="/build/bundle.js"></script>
       </body>
     </html>
     `

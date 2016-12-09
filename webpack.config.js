@@ -1,53 +1,65 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+
+//only optimize the output for production, making it easier to debug
+const optimizationPlugins = []
+optimizationPlugins.push(new webpack.optimize.DedupePlugin())
+if (process.env.NODE_ENV === 'production') {
+    optimizationPlugins.push(new webpack.LoaderOptionsPlugin({
+        minimize: true
+    }))
+    optimizationPlugins.push(new webpack.optimize.UglifyJsPlugin({
+        compressor: { warnings: false },
+        comments: false
+    }))
+}
 
 module.exports = [
-  //configuration for the client
-  {
-    entry: './modules/client.js',
+    //configuration for the client
+    {
+        context: path.resolve(path.join(__dirname, '/src')),
+        entry: ['regenerator-runtime/runtime', './client.js'],
 
-    output: {
-      path: path.join(__dirname, 'public'),
-      filename: 'bundle.js',
-      chunkFilename: '[id].chunk.js',
-      publicPath: '/'
+        output: {
+            path: path.resolve(path.join(__dirname, 'public/build')),
+            filename: 'bundle.js',
+            chunkFilename: '[id].chunk.js',
+            publicPath: '/build/'
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    loader: 'babel-loader?plugins[]=transform-regenerator'
+                }
+            ]
+        },
+
+        plugins: [
+            ...optimizationPlugins,
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+            })
+        ]
     },
 
-    module: {
-      loaders: [
-        { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react' }
-      ]
-    },
-
-    plugins: [
-      new webpack.optimize.OccurenceOrderPlugin(),
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: { warnings: false },
-      }),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-      })
-    ]
-
-  },
-
-  //configuration for the server-side rendering
-  {
-    name: "server-side rendering",
-    entry: './modules/routes/RootRoute.js',
-    target: "node",
-    output: {
-      path: path.join(__dirname, 'modules'),
-      filename: "serverside.bundle.js",
-      publicPath: './',
-      libraryTarget: "commonjs2"
-    },
-    externals: /^[a-z\-0-9]+$/,
-    module: {
-      loaders: [
-        { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react' }
-      ]
+    //configuration for the server-side rendering of routes
+    {
+        name: 'server-side rendering',
+        entry: './src/routes.js',
+        target: 'node',
+        output: {
+            path: path.resolve(path.join(__dirname, 'build')),
+            filename: 'server.routes.bundle.js',
+            publicPath: './build',
+            libraryTarget: 'commonjs2'
+        },
+        externals: /^[a-z\-0-9]+$/,
+        module: {
+            rules: [
+                { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+            ]
+        }
     }
-  }
 ]
